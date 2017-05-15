@@ -2,12 +2,16 @@
 namespace Admin\Model;
 use Think\Model;
 class OrderModel extends Model{
-	// 查询订单数据
-		function getList(){
-		$order = M('order');
-		$list = $order -> select();
+	/*
+	function index(){
+		var_dump('gg');
+	}
+	*/
+	
+	function getList(){
+		//多表查询
+		$table->join()->select();
 		return $list;
-		
 	}
 }
 ?>

@@ -2,12 +2,9 @@
 namespace Admin\Model;
 use Think\Model;
 class UserModel extends Model{
-	//查询用户数据
-		function getList(){
-		$user = M('user');
-		$list = $user -> select();
+	function getList(){
+		$list = $table->select();
 		return $list;
-		
 	}
 }
 ?>

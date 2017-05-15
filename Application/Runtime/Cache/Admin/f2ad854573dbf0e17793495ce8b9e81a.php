@@ -31,15 +31,15 @@
 				</thead>
 			 
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>一只鸭</td>
-						<td>2015-10-31 10:36:10</td>
+				<?php if(is_array($list)): foreach($list as $key=>$row): ?><tr>
+						<td><?php echo ($row["id"]); ?></td>
+						<td><?php echo ($row["uname"]); ?></td>
+						<td><?php echo ($row["create_time"]); ?></td>
 						<td>
 							<a href="#" title="Delete"><img src="Public/resources/images/icons/cross.png" alt="下架" /></a> 
-							<a href="#" title="Edit"><img src="Public/resources/images/icons/pencil.png" alt="修改" /></a>
+							<a href="?m=Admin&c=Index&goto=userSave&id=<?php echo ($row["id"]); ?>" title="Edit"><img src="Public/resources/images/icons/pencil.png" alt="修改" /></a>
 						</td>
-					</tr>
+					</tr><?php endforeach; endif; ?>
 				</tbody>
 				
 				<tfoot>
