@@ -18,7 +18,8 @@ class IndexController extends Controller {
 		//注入
 		$this->assign('list',$this->list);
 		//分页
-		
+		$test = 'test';
+		var_dump($this->$test);
 		//视图
 		$this->show();
 	}
@@ -35,7 +36,11 @@ class IndexController extends Controller {
 	function getList(){
 		$tmp = $this->goto;
 		if($num = strpos($this->goto,'Add')){//如果有Add就截取
-			$tmp = 'type';
+			$tmp = substr($tmp, 0, $num);
+		}
+		//1.1新增modify判断
+		if($num = strpos($this->goto,'Modify')){
+			$tmp = substr($tmp, 0, $num);
 		}
 		$table = M($tmp);
 		$list = $table->select();
@@ -55,27 +60,33 @@ class IndexController extends Controller {
 		$this->display('foot');
 	}
 	
+	
 	function checkPost(){
 		//表名不能为空
 		if(empty($_GET['goto'])){
 			return false;
 		}
-		
 		if(empty($_POST)){
 			return false;
 		}
-		//typeAdd格式对应表为type，截取add
-		$pos = strpos($this->goto,'Add');
-		$tableName = substr($this->goto,0,$pos);
 		
-		/*
-		$model = D($tableName);
-		function getList(){
-			// goto select;
-			return ;
+		//typeAdd格式对应表为type，截取add,save截取Save
+		
+		//填载需要的方法
+		$array = array(
+			'add'=>'Add',
+			'save'=>'Save'
+		);
+		
+		//看看是哪种行为=>方法
+		$tableName = '';
+		foreach($array as $method=>$action){
+			if($pos = strpos($this->goto,$action)){
+				$tableName = substr($this->goto, 0, $pos);
+				break;
+			}
 		}
-		order这种很难操作，还是做上述的模型吧
-		*/
+		
 		//实例化表模型
 		$table = M($tableName);
 		//获取表单POST数据
@@ -83,11 +94,12 @@ class IndexController extends Controller {
 			$data[$key] = $value; 
 		}
 		$data['create_time'] = time();
+		
 		//需要数据验证吗？
 		
 		//创建数据并添加
 		$table->create($data);
-		if($table->add()){
+		if($table->where($id)->$method()){
 			//跳转
 			header('location:?m=Admin&c=Index&goto='.$tableName);
 			exit();
