@@ -123,9 +123,9 @@
 					</a>
 					<ul>
 						<li><a href="?m=Admin&c=Index&goto=user">管理用户</a></li>
+						<li><a href="?m=Admin&c=Index&goto=userAdd">添加用户</a></li>
 					</ul>
 				</li>
-				
 				
 				      
 				
