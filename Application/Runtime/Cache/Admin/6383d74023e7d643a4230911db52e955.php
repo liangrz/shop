@@ -47,7 +47,6 @@
 							<td>
 							<a href="#" title="Delete"><img src="Public/resources/images/icons/cross.png" alt="下架" /></a> 
 							<a href="#" title="Edit"><img src="Public/resources/images/icons/pencil.png" alt="修改" /></a>
-							<a href="?m=Admin&c=Index&goto=pinglun" title="Edit">评论</a>
 						</td>
 						</tr><?php endforeach; endif; ?>
 				</tbody>

@@ -5,10 +5,10 @@ class IndexController extends Controller {
 	
 	public $goto;
 	public $__GOTO__='?m=Admin&c=Index&goto=';
+	public $list;
+	public $id;
 	
 	public function index(){
-		//checkLogin
-		
 		//获取要去哪个页面
 		$this->goto = $this->getGoto();
 		//如果有数据传入
@@ -17,8 +17,6 @@ class IndexController extends Controller {
 		$this->list = $this->getList();
 		//注入
 		$this->assign('list',$this->list);
-		//分页
-		
 		//视图
 		$this->show();
 	}
@@ -35,15 +33,35 @@ class IndexController extends Controller {
 	function getList(){
 		$tmp = $this->goto;
 		if($num = strpos($this->goto,'Add')){//如果有Add就截取
-			$tmp = 'type';
+			//$tmp = substr($tmp, 0 ,$num);
+			$tmp = "type";
 		}
 		$table = M($tmp);
+		//$table = D($tmp);
+		//$list = $table->getList();
 		$list = $table->select();
 		//时间修正
 		foreach($list as $key=>$value){
 			if(!empty($list[$key]['create_time'])){
 				$tmp = $list[$key]['create_time'];
 				$list[$key]['create_time'] = date('Y-m-d h:i:s',$tmp);
+			}
+		}
+		
+		
+		if($num = strpos($this->goto,'Save')){//如果有Save就截取
+			$tmp = substr($tmp, 0 ,$num);
+			
+			$table = M($tmp);
+			//$table = D($tmp);
+			//$list = $table->getList();
+			$list = $table->where('id='.$_GET['id'])->select();
+			//时间修正
+			foreach($list as $key=>$value){
+				if(!empty($list[$key]['create_time'])){
+					$tmp = $list[$key]['create_time'];
+					$list[$key]['create_time'] = date('Y-m-d h:i:s',$tmp);
+				}
 			}
 		}
 		return $list;
@@ -68,15 +86,10 @@ class IndexController extends Controller {
 		$pos = strpos($this->goto,'Add');
 		$tableName = substr($this->goto,0,$pos);
 		
-		/*
-		$model = D($tableName);
-		function getList(){
-			// goto select;
-			return ;
-		}
-		order这种很难操作，还是做上述的模型吧
-		*/
+		//******以下填入和实装模型只有一般性，对于order这种很难操作，还是做模型吧
+		//$model = D($tableName);
 		//实例化表模型
+		
 		$table = M($tableName);
 		//获取表单POST数据
 		foreach($_POST as $key=>$value){
@@ -92,6 +105,16 @@ class IndexController extends Controller {
 			header('location:?m=Admin&c=Index&goto='.$tableName);
 			exit();
 		}
+	}
+	
+	function save(){
+		//修改数据
+	}
+	
+	
+	
+	function checkLogin(){
+		
 	}
 }
 ?>

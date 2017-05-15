@@ -31,15 +31,17 @@
 				</thead>
 			 
 				<tbody>
+				<foreach name="list" item="row">
 					<tr>
-						<td>1</td>
-						<td>一只鸭</td>
-						<td>2015-10-31 10:36:10</td>
+						<td>{$row.id}</td>
+						<td>{$row.uname}</td>
+						<td>{$row.create_time}</td>
 						<td>
 							<a href="#" title="Delete"><img src="Public/resources/images/icons/cross.png" alt="下架" /></a> 
-							<a href="#" title="Edit"><img src="Public/resources/images/icons/pencil.png" alt="修改" /></a>
+							<a href="__GOTO__userSave&id={$row.id}" title="Edit"><img src="Public/resources/images/icons/pencil.png" alt="修改" /></a>
 						</td>
 					</tr>
+				</foreach>
 				</tbody>
 				
 				<tfoot>
